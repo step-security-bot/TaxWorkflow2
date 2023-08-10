@@ -7,6 +7,14 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>LstRechner</Title>
     <RepositoryUrl>https://github.com/AK2083/TaxWorkflow2.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MinVer" Version="4.3.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
 
 </Project>
