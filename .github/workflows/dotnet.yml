@@ -3,8 +3,6 @@ on:
   workflow_dispatch: # Allow running the workflow manually from the GitHub UI
 
 env:
-  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
-  DOTNET_NOLOGO: true
   NuGetDirectory: ${{ github.workspace}}/nuget
 
 jobs:
@@ -15,11 +13,6 @@ jobs:
   
     steps:
     - uses: actions/checkout@v3
-  
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 6.0.x
   
     - name: Bump version and push tag
       id: tag_version
@@ -36,7 +29,7 @@ jobs:
         name: Release ${{ steps.tag_version.outputs.new_tag }}
         body: ${{ steps.tag_version.outputs.changelog }}
   
-    - name: set output
+    - name: Set output
       id: settingNewTagOutput
       run: |
         echo "newTag='${{ steps.tag_version.outputs.new_tag }}'" >> $GITHUB_OUTPUT
@@ -47,7 +40,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: conventional Changelog Action
+      - name: Generate Changelog
         id: changelog
         uses: TriPSs/conventional-changelog-action@v3.7.1
         with:
@@ -59,10 +52,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - run: "echo ${{ needs.create_nuget.outputs.newTag }}"
-
     - name: pack nuget package
-      #run: dotnet pack --configuration Release --output ${{ env.NuGetDirectory }} -p:PackageVersion=${{ steps.tag_version.outputs.new_tag }}
       run: dotnet pack --configuration Release --output ${{ env.NuGetDirectory }} -p:PackageVersion=${{ needs.create_nuget.outputs.newTag }}
 
     # Publish the NuGet package as an artifact, so they can be used in the following jobs
@@ -77,24 +67,17 @@ jobs:
     runs-on: ubuntu-latest
     needs: pack_nuget
     steps:
-      # Download the NuGet package created in the previous job
       - uses: actions/download-artifact@v3
         with:
           name: nuget
           path: ${{ env.NuGetDirectory }}
 
-      # Install the .NET SDK indicated in the global.json file
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 6.0.x
 
-      # Publish all NuGet packages to NuGet.org
-      # Use --skip-duplicate to prevent errors if a package with the same version already exists.
-      # If you retry a failed workflow, already published packages will be skipped without error.
       - name: Create github-feed
         run: dotnet nuget add source --username AK2083 --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/AK2083/index.json"
       - name: Publish NuGet package
-        #run: |
-        #  foreach($file in (Get-ChildItem "${{ env.NuGetDirectory }}" -Recurse -Include *.nupkg)) {
-        #      dotnet nuget push $file --api-key ${{ secrets.GITHUB_TOKEN }} --source "github" --skip-duplicate
-        #  }
         run: dotnet nuget push "${{ env.NuGetDirectory }}/*.nupkg" --api-key ${{ secrets.GITHUB_TOKEN }} --source "github" --skip-duplicate
