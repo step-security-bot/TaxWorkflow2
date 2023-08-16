@@ -4,7 +4,6 @@ namespace TaxWorkflow2
 {
     public class Class1
     {
-        //supertoll aber überhaupt
-        //Auch nicht schlecht
+        public int KillerFlag { get; set; }
     }
 }
