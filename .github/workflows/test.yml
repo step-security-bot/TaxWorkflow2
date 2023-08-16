@@ -38,3 +38,10 @@ jobs:
         conclusion: ${{ job.status }}
         output: '{"summary":"Code coverage"}'
         output_text_description_file: coverage/Summary.md
+
+    - name: Lint Code Base
+      uses: super-linter/super-linter@v5
+      env:
+        VALIDATE_ALL_CODEBASE: false
+        DEFAULT_BRANCH: main
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
