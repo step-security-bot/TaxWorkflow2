@@ -45,6 +45,7 @@ jobs:
         uses: TriPSs/conventional-changelog-action@v3.7.1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          skip-version-file: 'true'
 
   pack_nuget:
     runs-on: ubuntu-latest
