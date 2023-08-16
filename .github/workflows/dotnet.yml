@@ -10,6 +10,8 @@ env:
 jobs:        
   create_nuget:
     runs-on: ubuntu-latest
+    outputs:
+      newTag: ${{ steps.tag_version.outputs.new_tag }}
     steps:
     - uses: actions/checkout@v3
     
@@ -32,10 +34,22 @@ jobs:
         tag: ${{ steps.tag_version.outputs.new_tag }}
         name: Release ${{ steps.tag_version.outputs.new_tag }}
         body: ${{ steps.tag_version.outputs.changelog }}
-        
-    # Create the NuGet package in the folder from the environment variable NuGetDirectory
-    - run: echo ${{ steps.tag_version.outputs.new_tag }}
-    - run: dotnet pack --configuration Release --output ${{ env.NuGetDirectory }} -p:PackageVersion=${{ steps.tag_version.outputs.new_tag }}
+
+    - name: set output
+      id: settingNewTagOutput
+      run: |
+        echo "newTag='${{ steps.tag_version.outputs.new_tag }}'" >> $GITHUB_OUTPUT
+
+  pack_nuget:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/cechkout@v3
+
+    - run: "echo ${{ needs.create_nuget.outputs.newTag }}"
+
+    - name: pack nuget package
+      #run: dotnet pack --configuration Release --output ${{ env.NuGetDirectory }} -p:PackageVersion=${{ steps.tag_version.outputs.new_tag }}
+      run: dotnet pack --configuration Release --output ${{ env.NuGetDirectory }} -p:PackageVersion=${{ needs.create_nuget.outputs.newTag }}
 
     # Publish the NuGet package as an artifact, so they can be used in the following jobs
     - uses: actions/upload-artifact@v3
