@@ -44,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: create_nuget
     steps:
-    - uses: actions/cechkout@v3
+    - uses: actions/checkout@v3
 
     - run: "echo ${{ needs.create_nuget.outputs.newTag }}"
 
