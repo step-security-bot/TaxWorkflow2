@@ -52,7 +52,7 @@ jobs:
 
       - name: Generate Changelog
         id: changelog
-        uses: TriPSs/conventional-changelog-action@f02cbf500be5df43bea8aba831e5b2907aef3366 # v3.7.1
+        uses: TriPSs/conventional-changelog-action@5f865e4ca373f189640721c0cca04ea3e0e7bfcd # v4.0.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           skip-version-file: 'true'
