@@ -1,3 +1,12 @@
+## [0.3.1](https://github.com/AK2083/TaxWorkflow2/compare/v0.3.0...v0.3.1) (2023-08-17)
+
+
+### Bug Fixes
+
+* **TaxWorkflow2:** change constructor ([6706555](https://github.com/AK2083/TaxWorkflow2/commit/670655521d330e08966d9bd32bdd83490794f1a3))
+
+
+
 # [0.3.0](https://github.com/AK2083/TaxWorkflow2/compare/v0.2.0...v0.3.0) (2023-08-16)
 
 
