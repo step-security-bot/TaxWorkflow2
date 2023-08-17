@@ -9,6 +9,8 @@ permissions: read-all
 
 jobs:
   create_nuget:
+    permissions: 
+      contents: write
     runs-on: ubuntu-latest
     outputs:
       newTag: ${{ steps.tag_version.outputs.new_tag }}
