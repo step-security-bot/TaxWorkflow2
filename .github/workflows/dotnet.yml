@@ -84,6 +84,8 @@ jobs:
         path: ${{ env.NuGetDirectory }}/*.nupkg
       
   deploy:
+    permissions: 
+      contents: write
     runs-on: ubuntu-latest
     needs: pack_nuget
     steps:
