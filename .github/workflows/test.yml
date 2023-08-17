@@ -6,13 +6,14 @@ name: Test Workflow
 on:
   workflow_dispatch: # Allow running the workflow manually from the GitHub UI
 
+permissions: 
+  id-token: write
+  contents: read
+  pull-requests: write
+  actions: write
+      
 jobs:
   build:
-    permissions: 
-      id-token: write
-      contents: read
-      pull-requests: write
-      actions: write
     runs-on: ubuntu-latest
 
     steps:
