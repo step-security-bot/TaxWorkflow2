@@ -1,0 +1,16 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /TaxWorkflow2
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /TestTaxWF
+    schedule:
+      interval: daily
