@@ -8,7 +8,9 @@ on:
 
 jobs:
   build:
-    permissions: read-all
+    permissions: 
+      contents: read
+      security-events: write
     runs-on: ubuntu-latest
 
     steps:
