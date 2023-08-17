@@ -6,12 +6,12 @@ name: Test Workflow
 on:
   workflow_dispatch: # Allow running the workflow manually from the GitHub UI
 
-permissions: 
-  contents: read
-  checks: write
+permissions: read-all
       
 jobs:
   build:
+    permissions: 
+      checks: write
     runs-on: ubuntu-latest
 
     steps:
