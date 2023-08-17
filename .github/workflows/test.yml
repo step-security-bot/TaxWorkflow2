@@ -7,7 +7,6 @@ on:
   workflow_dispatch: # Allow running the workflow manually from the GitHub UI
 
 permissions: 
-  id-token: write
   contents: read
   actions: write
   checks: write
