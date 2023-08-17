@@ -5,6 +5,8 @@ on:
 env:
   NuGetDirectory: ${{ github.workspace}}/nuget
 
+permissions: read-all
+
 jobs:
   create_nuget:
     runs-on: ubuntu-latest
